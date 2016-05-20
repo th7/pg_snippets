@@ -1,28 +1,24 @@
 # PgSnippets
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pg_snippets`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'pg_snippets'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install pg_snippets
+Generate some SQL to set up your PG database and tables
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+conn = PG::Connection.new(host: 'yourdbhost', user: 'yourdbuser', dbname: 'yourdbname')
+conn.exec(PgSnippets::V1.setup_db) # adds change id sequence and metadata function
+conn.exec('create table my_table(my_field1 serial primary key, my_field2 text')
+conn.exec(PgSnippets::V1.setup_table('my_table')) # adds created_at, updated_at, and change_id -- also uses hooks to keep them correctly updated
+
+### if using ActiveRecord, let the db handle metadata timestamps
+class MyTable
+  self.record_timestamps = false
+end
+```
+
+As long as you remember which change_id you saw last, you can always figure out which data in my_table has changed.
+
+The PgSnippets::V* namespace is to make sure the SQL never changes. Any chnges to existing SQL will go into a new version namespace, so your migrations stay reproducable even if you upgrade this gem.
 
 ## Development
 
