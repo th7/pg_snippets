@@ -1,6 +1,6 @@
 # PgSnippets
 
-Generate some SQL to set up your PG database and tables
+Generate SQL to set up your PG database and tables
 
 ## Usage
 
@@ -18,7 +18,7 @@ end
 
 As long as you remember which change_id you saw last, you can always figure out which data in my_table has changed.
 
-The PgSnippets::V* namespace is to make sure the SQL never changes. Any chnges to existing SQL will go into a new version namespace, so your migrations stay reproducable even if you upgrade this gem.
+The PgSnippets::V* namespace is to make sure the SQL never changes. Any changes to existing SQL will go into a new version namespace, so your migrations stay reproducible even if you upgrade this gem.
 
 ## Development
 
